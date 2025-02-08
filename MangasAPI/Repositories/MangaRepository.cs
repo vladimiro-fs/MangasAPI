@@ -14,7 +14,7 @@
             return await _context.Mangas.Where(b => b.CategoryId == categoryId).ToListAsync();
         }
 
-        public async Task<IEnumerable<Manga>> TrackMangaWithCategoryAsync(string filter)
+        public async Task<IEnumerable<Manga>> FindMangaWithCategoryAsync(string filter)
         {
             return await _context.Mangas.AsNoTracking()
                 .Include(b => b.Category)

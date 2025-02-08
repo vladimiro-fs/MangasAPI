@@ -6,6 +6,6 @@
     {
         Task<IEnumerable<Manga>> GetMangasByCategoryAsync(int categoryId);
 
-        Task<IEnumerable<Manga>> TrackMangaWithCategoryAsync(string filter);
+        Task<IEnumerable<Manga>> FindMangaWithCategoryAsync(string filter);
     }
 }
