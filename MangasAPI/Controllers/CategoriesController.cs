@@ -4,9 +4,11 @@
     using MangasAPI.DTOs;
     using MangasAPI.Entities;
     using MangasAPI.Repositories.Interfaces;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes ="Bearer")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
