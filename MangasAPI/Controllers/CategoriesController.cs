@@ -55,7 +55,8 @@
             return new CreatedAtRouteResult(
                 "GetCategory", 
                 new { id = categoryDto.Id }, 
-                categoryDto);
+                categoryDto
+            );
         }
 
         [HttpPut]
