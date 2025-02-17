@@ -21,7 +21,8 @@ builder.Services.AddCors(options =>
             policy.AllowAnyOrigin()
                   .AllowAnyHeader()
                   .AllowAnyMethod();
-        });
+        }
+    );
 });
 
 // Add services to the container.
@@ -62,9 +63,11 @@ builder.Services.AddSwaggerGen(c =>
 
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseSqlServer(connection,
+        options.UseSqlServer(
+            connection,
             // specifies the assembly name where migrations are located
-            b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
+            b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName))
+);
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IMangaRepository, MangaRepository>();
@@ -85,7 +88,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
         };
-    });
+    }
+);
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
@@ -102,6 +106,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors();
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();
