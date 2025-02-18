@@ -26,6 +26,11 @@
                 .HasMaxLength(100)
                 .IsRequired();
 
+            builder.Entity<Category>()
+                .Property(p => p.IconCSS)
+                .HasMaxLength(100)
+                .IsRequired();
+
             // 1 : N => Category : Mangas
             builder.Entity<Category>()
                 .HasMany(c => c.Mangas)
@@ -34,11 +39,11 @@
 
             // defines the initial data for Category entity
             builder.Entity<Category>().HasData(
-                new Category(1, "Adventure"),
-                new Category(2, "Action"),
-                new Category(3, "Drama"),
-                new Category(4, "Romance"),
-                new Category(5, "Sci-Fi")
+                new Category(1, "Adventure", "oi oi-aperture"),
+                new Category(2, "Action", "oi oi-fire"),
+                new Category(3, "Drama", "oi oi-cloudy"),
+                new Category(4, "Romance", "oi oi-layers"),
+                new Category(5, "Sci-Fi", "oi oi-tablet")
             );
 
             builder.Entity<Manga>().HasKey(t => t.Id);

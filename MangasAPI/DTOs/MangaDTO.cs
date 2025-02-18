@@ -68,7 +68,6 @@
         [Range(1, 999)]
         public int Stock { get; set; }
 
-        [JsonIgnore]
         public Category? Category { get; set; }
 
         [DisplayName("Categories")]

@@ -2,10 +2,12 @@
 {
     using System.Collections.Generic;
     using AutoMapper;
+    using MangasAPI.ApiPagination;
     using MangasAPI.DTOs;
     using MangasAPI.Entities;
     using MangasAPI.Repositories.Interfaces;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -133,6 +135,33 @@
             var mangasCategoryDto = _mapper.Map<IEnumerable<MangaCategoryDTO>>(mangas);
 
             return Ok(mangasCategoryDto);
+        }
+
+        [HttpGet("pagination")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<MangaDTO>>> GetMangasPagination([FromQuery] Pagination pagination)
+        {
+            var paginatedMangas = _mangaRepository.GetMangasQueryable();
+
+            if (paginatedMangas is null)
+            {
+                return NotFound("No mangas found");
+            }
+
+            double totalRegistrationAmount = await paginatedMangas.CountAsync();
+            double totalPages = Math.Ceiling(totalRegistrationAmount / pagination.AmountPerPage);
+
+            var result = await paginatedMangas.Paging(pagination).ToListAsync();
+            var mangasDto = _mapper.Map<IEnumerable<MangaDTO>>(result);
+
+            var response = new MangaPaginationResponseDTO
+            {
+                Mangas = mangasDto.ToList(),
+                TotalPages = (int)totalPages
+            };
+
+            return Ok(response);
         }
     }
 }

@@ -7,5 +7,7 @@
         Task<IEnumerable<Manga>> GetMangasByCategoryAsync(int categoryId);
 
         Task<IEnumerable<Manga>> FindMangaWithCategoryAsync(string filter);
+
+        IQueryable<Manga> GetMangasQueryable();
     }
 }
